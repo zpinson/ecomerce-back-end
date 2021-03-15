@@ -7,9 +7,9 @@ router.get('/', async (req, res) => {
   // find all categories
   // be sure to include its associated Products
   try {
-    const categoryData = await Category.findAll(req.params.id, {
+    const categoryData = await Category.findAll({
       // JOIN with travellers, using the Trip through table
-      // include: [{ model: Category, ProductTag, Tag, through: Product, as: 'category_all' }]
+      include: [{ model: Product }]
     });
 
     if (!categoryData) {
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
   try {
     const categoryData = await Category.findByPk(req.params.id, {
       // JOIN with travellers, using the Trip through table
-      // include: [{ model: Category,  ProductTag, through:Tag, as: 'product_all' }]
+      include: [{ model: Product }]
     });
 
     if (!categoryData) {
@@ -68,8 +68,24 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete a category by its `id` value
+  try {
+    const categoryData = await Category.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    if (!categoryData) {
+      res.status(404).json({ message: 'No category found with this id!' });
+      return;
+    }
+
+    res.status(200).json(categoryData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;

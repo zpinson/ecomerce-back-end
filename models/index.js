@@ -12,38 +12,38 @@ const ProductTag = require('./ProductTag');
 
 // Tags belongToMany Products (through ProductTag)
 
-// Product.belongsTo (Category, {
-//   // Define the third table needed to store the foreign keys
-//   foreignKey: 'category_id',
-//   // Define an alias for when data is retrieved
-//   as: 'category_all',
+Product.belongsTo (Category, {
+  // Define the third table needed to store the foreign keys
+  foreignKey: 'category_id',
+  // Define an alias for when data is retrieved
+  // as: 'category_all',
 
-// });
+});
 
-// Category.hasMany(Product, {
-//   foreignKey: 'product_id',
-//   onDelete: 'CASCADE',
-// });
+Category.hasMany(Product, {
+  foreignKey: 'category_id',
+  onDelete: 'CASCADE',
+});
 
-// Product.belongsToMany(ProductTag, {
-//   // Define the third table needed to store the foreign keys
-//   through: {
-//     model: Tag,
-//     unique: false
-//   },
-//   // Define an alias for when data is retrieved
-//   as: 'product_all'
-// });
+Product.belongsToMany(ProductTag, {
+  // Define the third table needed to store the foreign keys
+  through: {
+    model: Tag,
+    unique: false
+  },
+  // Define an alias for when data is retrieved
+  as: 'product_all'
+});
 
-// ProductTag.belongsToMany(Product, {
-//   // Define the third table needed to store the foreign keys
-//   through: {
-//     model: Tag,
-//     unique: false
-//   },
-//   // Define an alias for when data is retrieved
-//   as: 'tag_all'
-// });
+ProductTag.belongsToMany(Product, {
+  // Define the third table needed to store the foreign keys
+  through: {
+    model: Tag,
+    unique: false
+  },
+  // Define an alias for when data is retrieved
+  as: 'tag_all'
+});
 
 module.exports = {
   Product,
