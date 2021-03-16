@@ -7,9 +7,9 @@ router.get('/', async (req, res) => {
   // find all tags
   // be sure to include its associated Product data
   try {
-    const tagData = await Tag.findAll(req.params.id, {
+    const tagData = await Tag.findAll( {
       // JOIN with travellers, using the Trip through table
-      include: [{ model: ProductTag, Tag, through: Product, as: 'category_all' }]
+      include: [{ model: Product, through: ProductTag, }]
     });
 
     if (!tagData) {
@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
   try {
     const tagData = await Tag.findByPk(req.params.id, {
       // JOIN with travellers, using the Trip through table
-      include: [{ model:  ProductTag, through:Tag, as: 'product_all' }]
+      include: [{ model: Product, through: ProductTag, }]
     });
 
     if (!tagData) {

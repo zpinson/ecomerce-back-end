@@ -9,9 +9,9 @@ router.get('/', async (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
   try {
-    const productData = await Product.findAll(req.params.id, {
+    const productData = await Product.findAll({
       // JOIN with travellers, using the Trip through table
-      include: [{ model: Category, ProductTag, Tag, through: Product, as: 'category_all' }]
+      include: [Category,{ model: Tag, through: ProductTag }]
     });
 
     if (!productData) {
@@ -32,7 +32,7 @@ router.get('/:id', async (req, res) => {
   try {
     const productData = await Product.findByPk(req.params.id, {
       // JOIN with travellers, using the Trip through table
-      include: [{ model: Category, ProductTag, Tag, through: Product, as: 'category_all' }]
+      include: [Category,{ model: Tag, through: ProductTag }]
     });
 
     if (!productData) {
@@ -115,7 +115,7 @@ router.put('/:id', (req, res) => {
     })
     .then((updatedProductTags) => res.json(updatedProductTags))
     .catch((err) => {
-      // console.log(err);
+      console.log(err);
       res.status(400).json(err);
     });
 });
